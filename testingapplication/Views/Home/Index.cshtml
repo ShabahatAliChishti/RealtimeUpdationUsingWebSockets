@@ -1,0 +1,38 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+<html>
+<body>
+    <div id="data">
+
+    </div>
+
+</body>
+</html>
+<script src="~/scripts/jquery-1.10.2.min.js"></script>
+
+<script>
+$(document).ready(function () {
+    initSocket();
+});
+
+function initSocket(recordType) {
+    var uri = "ws://localhost:62702/api/Values";
+    websocket = new WebSocket(uri);
+    websocket.onopen = function () {
+        $('#messages').prepend('<div>Connected to server.</div>');
+        websocket.send(recordType);
+    };
+    websocket.onerror = function (event) {
+        $('#messages').prepend('<div>ERROR</div>');
+    };
+    debugger;
+    websocket.onmessage = function (event) {
+        $('#messages').prepend('<div>' + event.data + '</div>');
+        $('#data').html('<div>' + event.data + '</div>');
+
+    };
+} </script> 
